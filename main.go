@@ -81,7 +81,7 @@ func (w *checkSizeFileWriter) Write(data []byte) (n int, err error) {
 	}
 
 	if fi.Size()+int64(len(data)) >= w.maxSize {
-		return -1, fmt.Errorf("write of %d bytes would make the file bigger than the max of %s", len(data), humanize.Bytes(uint64(fi.Size())))
+		return -1, fmt.Errorf("write of %d bytes would make the file bigger than the max of %s", len(data), humanize.Bytes(uint64(w.maxSize)))
 	}
 
 	return w.f.Write(data)
