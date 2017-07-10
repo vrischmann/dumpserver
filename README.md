@@ -9,3 +9,8 @@ Building
 --------
 
 Get [Bazel](https://bazel.build) and run `bazel build :dumpserver`
+
+Running
+-------
+
+    dumpserver -o /tmp/requests.log --max-output-size 100MiB -l :6000
