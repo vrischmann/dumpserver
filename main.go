@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bytes"
 	"context"
 	"flag"
 	"fmt"
@@ -23,6 +24,17 @@ type dumper struct {
 	output io.Writer
 }
 
+func serializeDump(data []byte) []byte {
+	var buf bytes.Buffer
+
+	buf.WriteString(time.Now().String())
+	buf.WriteString("\n---\n")
+	buf.Write(data)
+	buf.WriteString("\n---\n\n")
+
+	return buf.Bytes()
+}
+
 func (d *dumper) ServeHTTP(w http.ResponseWriter, req *http.Request) {
 	defer func() {
 		w.WriteHeader(200)
@@ -34,7 +46,7 @@ func (d *dumper) ServeHTTP(w http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	_, err = d.output.Write(append(dump, []byte("\n\n----\n\n")...))
+	_, err = d.output.Write(serializeDump(dump))
 	if err != nil {
 		log.Printf("unable to write request dump. err=%v", err)
 	}
