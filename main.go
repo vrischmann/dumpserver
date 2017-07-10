@@ -34,7 +34,7 @@ func (d *dumper) ServeHTTP(w http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	_, err = d.output.Write(dump)
+	_, err = d.output.Write(append(dump, []byte("\n\n----\n\n")...))
 	if err != nil {
 		log.Printf("unable to write request dump. err=%v", err)
 	}
